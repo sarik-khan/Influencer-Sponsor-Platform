@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+{% block title %}Sponsor Dashboard{% endblock %}
+{% block content %}
+    <h2 class="mb-4">Sponsor Dashboard</h2>
+    <form method="POST" class="p-4 border rounded shadow-sm bg-light">
+        
+        <div class="form-group">
+            {{ form.company_name.label }} {{ form.company_name(class="form-control") }}
+        </div>
+
+        <div class="form-group mt-3">
+            {{ form.industry.label }} {{ form.industry(class="form-control") }}
+        </div>
+
+        <div class="form-group mt-3">
+            {{ form.budget.label }} {{ form.budget(class="form-control") }}
+        </div>
+
+        <div class="mt-4 text-center">
+            {{ form.submit(class="btn btn-primary") }}
+        </div>
+    </form>
+
+    <div class="mt-4">
+        <a href="{{ url_for('create_campaign') }}" class="btn btn-primary">Create New Campaign</a>
+    </div>
+
+    <!-- Campaigns List Table -->
+    <div class="mt-4">
+        <h4>Your Campaigns</h4>
+        <table class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                    <th>Budget</th>
+                    <th>Visibility</th>
+                    <th>Influencer Username</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                    <th>Campaign Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for campaign in campaigns %}
+                <tr id="campaign-{{ campaign.id }}">
+                    <td>{{ campaign.id }}</td>
+                    <td>{{ campaign.name }}</td>
+                    <td>{{ campaign.start_date }}</td>
+                    <td>{{ campaign.end_date }}</td>
+                    <td>{{ campaign.budget }}</td>
+                    <td>{{ campaign.visibility }}</td>
+                    <td>{{ campaign.influencer_username }}</td>
+                    <td>{{ campaign.status }}</td>
+                    <td>
+                        <a href="{{ url_for('edit_campaign', campaign_id=campaign.id) }}" class="btn btn-warning btn-sm">Update</a>
+                        <button onclick="deleteCampaign('{{ campaign.id }}')" class="btn btn-danger btn-sm">Delete</button>
+
+                    </td>
+                    <td>
+                        {% if campaign.status == 'Pending' %}
+                            <a href="{{ url_for('approve_campaign', campaign_id=campaign.id) }}" class="btn btn-success btn-sm">Approve</a>
+                            <a href="{{ url_for('reject_campaign', campaign_id=campaign.id) }}" class="btn btn-secondary btn-sm">Reject</a>
+                        {% elif campaign.status == 'Pending Negotiation' %}
+                            <a href="{{ url_for('approve_negotiation', campaign_id=campaign.id) }}" class="btn btn-success btn-sm">Accept Negotiation</a>
+                            <a href="{{ url_for('reject_negotiation', campaign_id=campaign.id) }}" class="btn btn-secondary btn-sm">Reject Negotiation</a>
+                        {% elif campaign.status == 'Accepted' %}
+                            <span class="badge bg-success">Accepted</span>
+                        {% elif campaign.status == 'Rejected' %}
+                            <span class="badge bg-danger">Rejected</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        function deleteCampaign(campaignId) {
+            if (confirm('Are you sure you want to delete this campaign?')) {
+                fetch(`/delete_campaign/${campaignId}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                        // Remove the CSRF token header
+                    }
+                }).then(response => {
+                    if (response.ok) {
+                        document.getElementById(`campaign-${campaignId}`).remove();
+                    } else {
+                        alert('Failed to delete the campaign. Please try again.');
+                    }
+                });
+            }
+        }
+    </script>
+{% endblock %}

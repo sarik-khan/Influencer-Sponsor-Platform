@@ -1,0 +1,115 @@
+{% extends "base.html" %}
+
+{% block title %}Admin Dashboard{% endblock %}
+
+{% block content %}
+<h1>Admin Dashboard</h1>
+<div class="profile-section">
+    <h2>Admin Profile</h2>
+    <form method="POST" action="{{ url_for('admin_dashboard') }}" class="p-4 border rounded shadow-sm bg-light">
+
+
+
+        <div class="form-group">
+            <label for="username"><strong>Username:</strong></label>
+            <p>{{ username }}</p>
+        </div>
+
+    </form>
+</div>
+
+
+<hr>
+
+<h2>Sponsors</h2>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Username</th>
+            <th>Company Name</th>
+            <th>Number of Campaigns</th>
+            <th>Sponsor ID</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for sponsor in sponsors %}
+        <tr>
+            <td>{{ sponsor.username }}</td>
+            <td>{{ sponsor.company_name }}</td>
+            <td>{{ sponsor.campaign_count }}</td>
+            <td>{{ sponsor.id }}</td>
+            <td class="table-actions">
+                <form method="POST" action="{{ url_for('flag_sponsor', sponsor_id=sponsor.id) }}">
+                    <button type="submit" class="btn btn-danger">Flag Sponsor</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<hr>
+
+<h2>Influencers</h2>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Username</th>
+            <th>Name</th>
+            <th>Campaigns Accepted</th>
+            <th>Followers</th>
+            <th>Niche</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for influencer in influencers %}
+        <tr>
+            <td>{{ influencer.username }}</td>
+            <td>{{ influencer.name }}</td>
+            <td>{{ influencer.campaigns_accepted }}</td>
+            <td>{{ influencer.followers }}</td>
+            <td>{{ influencer.niche }}</td>
+            <td class="table-actions">
+                <form method="POST" action="{{ url_for('flag_influencer', influencer_id=influencer.id) }}">
+                    <button type="submit" class="btn btn-danger">Flag Influencer</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<hr>
+
+<h2>Campaigns</h2>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Campaign Name</th>
+            <th>Sponsor's Name</th>
+            <th>Influencer</th>
+            <th>Industry</th>
+            <th>Status</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for campaign in campaigns %}
+        <tr>
+            <td>{{ campaign.name }}</td>
+            <td>{{ campaign.sponsor_name }}</td>
+            <td>{{ campaign.influencer_name }}</td>
+            <td>{{ campaign.industry }}</td>
+            <td>{{ campaign.status }}</td>
+            <td class="table-actions">
+                <form method="POST" action="{{ url_for('delete_campaign', campaign_id=campaign.id) }}">
+                    <button type="submit" class="btn btn-danger">Delete Campaign</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

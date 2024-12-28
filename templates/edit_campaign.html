@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Edit Campaign</h2>
+    <form method="POST" action="{{ url_for('edit_campaign', campaign_id=campaign.id) }}" class="p-4 border rounded shadow-sm bg-light">
+        {{ form.hidden_tag() }}
+
+        <div class="form-group">
+            <label for="name">Campaign Name:</label>
+            <input type="text" id="name" name="name" class="form-control" value="{{ campaign.name }}" required>
+        </div>
+
+        <div class="form-group mt-3">
+            <label for="start_date">Start Date:</label>
+            <input type="date" id="start_date" name="start_date" class="form-control" value="{{ campaign.start_date }}" required>
+        </div>
+
+        <div class="form-group mt-3">
+            <label for="end_date">End Date:</label>
+            <input type="date" id="end_date" name="end_date" class="form-control" value="{{ campaign.end_date }}" required>
+        </div>
+
+        <div class="form-group mt-3">
+            <label for="budget">Budget:</label>
+            <input type="number" id="budget" name="budget" class="form-control" value="{{ campaign.budget }}" required>
+        </div>
+
+        <div class="form-group mt-3">
+            <label for="visibility">Visibility:</label>
+            <select id="visibility" name="visibility" class="form-control">
+                <option value="Public" {% if campaign.visibility == 'Public' %}selected{% endif %}>Public</option>
+                <option value="Private" {% if campaign.visibility == 'Private' %}selected{% endif %}>Private</option>
+            </select>
+        </div>
+
+        {% if campaign.visibility == 'Private' %}
+        <div class="form-group mt-3">
+            <label for="influencer_username">Influencer Username:</label>
+            <input type="text" id="influencer_username" name="influencer_username" class="form-control" value="{{ campaign.influencer_username }}">
+        </div>
+        {% endif %}
+
+        <div class="mt-4 text-center">
+            <button type="submit" class="btn btn-primary">Update Campaign</button>
+            <a href="{{ url_for('sponsor_dashboard') }}" class="btn btn-secondary">Cancel</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

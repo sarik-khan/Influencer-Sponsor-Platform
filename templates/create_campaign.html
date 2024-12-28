@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block title %}Create Campaign{% endblock %}
+{% block content %}
+    <div class="container">
+            <h2>Create Campaign</h2>
+            <form method="POST">
+                {{ form.hidden_tag() }}
+                <div class="form-group">
+                    {{ form.name.label }} {{ form.name(class="form-control") }}
+                </div>
+                <div class="form-group mt-3">
+                    {{ form.description.label }} {{ form.description(class="form-control") }}
+                </div>
+
+
+                <div class="form-group mt-3">
+                    <label>Industry</label>
+                        <select name="industry">
+                                <option value="fashion">Fashion & Apparel</option>
+                                <option value="technology">Technology & Gadgets</option>
+                                <option value="health">Health & Wellness</option>
+                                <option value="food">Food & Beverage</option>
+                                <option value="travel">Travel & Tourism</option>
+                            </div>
+
+
+
+                <div class="form-group mt-3">
+                    {{ form.start_date.label }} {{ form.start_date(class="form-control") }}
+                </div>
+                <div class="form-group mt-3">
+                    {{ form.end_date.label }} {{ form.end_date(class="form-control") }}
+                </div>
+                <div class="form-group mt-3">
+                    {{ form.budget.label }} {{ form.budget(class="form-control") }}
+                </div>
+                <div class="form-group mt-3">
+                    {{ form.visibility.label }} {{ form.visibility(class="form-control") }}
+                </div>
+                <div class="form-group mt-3">
+                    {{ form.influencer_username.label }} {{ form.influencer_username(class="form-control") }}
+                </div>
+                <div class="mt-4 text-center">
+                    {{ form.submit(class="btn btn-primary") }}
+                
+            </form>
+        </div>
+    </div>
+{% endblock %}

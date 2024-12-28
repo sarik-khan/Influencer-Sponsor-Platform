@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block content %}
+    <h2>Campaign Results</h2>
+    {% for campaign in campaigns %}
+        <div class="campaign-card">
+            <h3>{{ campaign.name }}</h3>
+            <p><strong>Company:</strong> {{ campaign.sponsor.company_name }}</p>
+            <p><strong>Industry:</strong> {{ campaign.industry }}</p>
+            <p><strong>Budget:</strong> {{ campaign.budget }}</p>
+            <p><strong>Description:</strong> {{ campaign.description }}</p>
+            <p><strong>End Date:</strong> {{ campaign.end_date }}</p>
+            <form method="POST" action="{{ url_for('accept_campaign', campaign_id=campaign.id) }}">
+                <button type="submit">Accept</button>
+            </form>
+            <form method="GET" action="{{ url_for('negotiate_campaign', campaign_id=campaign.id) }}">
+                <button type="submit">Negotiate</button>
+            </form>
+        </div>
+    {% endfor %}
+{% endblock %}

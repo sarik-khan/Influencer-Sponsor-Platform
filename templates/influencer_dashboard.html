@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+
+{% block content %}
+<form method="POST" class="p-4 border rounded shadow-sm bg-light">
+    <!-- Username -->
+    <div class="form-group">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" class="form-control" value="{{ username }}" readonly>
+    </div>
+
+    <div class="form-group">
+        <label for="name">name:</label>
+        <input type="text" id="name" name="name" class="form-control" value="{{ name }}">
+    </div>
+
+    <!-- Photo URL -->
+    <div class="form-group mt-3">
+        <label for="photo">Photo URL:</label>
+        <input type="text" id="photo" name="photo" class="form-control" value="{{ profile.photo if profile else '' }}">
+    </div>
+
+    <!-- Niche -->
+    <div class="form-group mt-3">
+        <label for="niche">Niche:</label>
+        <input type="text" id="niche" name="niche" class="form-control" value="{{ profile.niche if profile else '' }}">
+    </div>
+
+    <!-- Number of Followers -->
+    <div class="form-group mt-3">
+        <label for="followers">Number of Followers:</label>
+        <input type="number" id="followers" name="followers" class="form-control" value="{{ profile.followers if profile else '' }}">
+    </div>
+
+    <!-- Bio -->
+    <div class="form-group mt-3">
+        <label for="bio">Bio:</label>
+        <textarea id="bio" name="bio" class="form-control" rows="5">{{ profile.bio if profile else '' }}</textarea>
+    </div>
+
+    <!-- Submit Button -->
+    <div class="mt-4 text-center">
+        <button type="submit" class="btn btn-primary">Save Profile</button>
+    </div>
+
+    <hr class="my-4">
+
+    <!-- Search Campaigns Button -->
+    <div class="mt-4 text-center">
+        <a href="{{ url_for('search_campaigns') }}" class="btn btn-success btn-block">Search Campaigns</a>
+    </div>
+
+    <!-- Campaigns Table -->
+    <div class="col-md-12 mt-4">
+        <h4 class="mb-4">Campaigns</h4>
+        <div class="table-responsive">
+            <table class="table table-hover table-striped">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Campaign Name</th>
+                        <th>Description</th>
+                        <th>Company/Individual</th>
+                        <th>Industry</th>
+                        <th>Budget</th>
+                        <th>End Date</th>
+                        <th>Actions</th>
+                        <th>Campaign Status</th>
+                        <th>Negotiation Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for campaign in campaigns %}
+                    <tr>
+                        <td>{{ campaign.name }}</td>
+                        <td>{{ campaign.description }}</td>
+                        <td>{{ campaign.sponsor.company_name }}</td>
+                        <td>{{ campaign.sponsor.industry }}</td>
+                        <td>${{ campaign.budget }}</td>
+                        <td>{{ campaign.end_date.strftime('%Y-%m-%d') }}</td>
+                        <td>
+                            {% if campaign.status == 'Pending' %}
+                            <form action="{{ url_for('accept_campaign', campaign_id=campaign.id) }}" method="POST" class="d-inline">
+                                <button type="submit" class="btn btn-success btn-sm">Accept</button>
+                            </form>
+                            <form action="{{ url_for('reject_campaign', campaign_id=campaign.id) }}" method="POST" class="d-inline">
+                                <button type="submit" class="btn btn-danger btn-sm">Reject</button>
+                            </form>
+                            <a href="{{ url_for('negotiate_campaign', campaign_id=campaign.id) }}" class="btn btn-warning btn-sm">Negotiate</a>
+                            {% else %}
+                            {{ campaign.status }}
+                            {% endif %}
+                        </td>
+                        <td>{{ campaign.negotiations[0].status if campaign.negotiations else 'N/A' }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</form>
+{% endblock %}

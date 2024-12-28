@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block title %}Home{% endblock %}
+{% block content %}
+<div class="container mt-5">
+    <div class="jumbotron text-center bg-primary text-white">
+        <h1 class="display-4">Welcome to IESCP</h1>
+        <p class="lead">Influencer Engagement and Sponsorship Coordination Platform</p>
+        <hr class="my-4 bg-light">
+        <p>Connecting brands with the right influencers for effective marketing campaigns.</p>
+        <a class="btn btn-success btn-lg mx-2" href="{{ url_for('register') }}" role="button">Register</a>
+        <a class="btn btn-secondary btn-lg mx-2" href="{{ url_for('login') }}" role="button">Login</a>
+    </div>
+
+    <div class="row mt-5">
+        <div class="col-md-4">
+            <div class="card h-100">
+                <div class="card-body text-center">
+                    <h5 class="card-title">For Sponsors</h5>
+                    <p class="card-text">Create campaigns, find influencers, and track performance.</p>
+                    <a href="#" class="btn btn-outline-primary">Learn More</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card h-100">
+                <div class="card-body text-center">
+                    <h5 class="card-title">For Influencers</h5>
+                    <p class="card-text">Manage ad requests, update your profile, and grow your brand.</p>
+                    <a href="#" class="btn btn-outline-primary">Learn More</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card h-100">
+                <div class="card-body text-center">
+                    <h5 class="card-title">For Admins</h5>
+                    <p class="card-text">Oversee platform operations, manage users, and flag content.</p>
+                    <a href="#" class="btn btn-outline-primary">Learn More</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+</div>
+{% endblock %}

@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block title %}Register{% endblock %}
+{% block content %}
+    <h2>Register</h2>
+    <div id="success" class="alert alert-success text-center" style="display: none;">
+        <h4 class="alert-heading">Hi {{ username }}!</h4>
+        <p>You have successfully registered on <strong>IESCP</strong> as <strong style="text-transform: capitalize;">{{ role }}</strong>.</p>
+        <hr>
+        <a href="{{ url_for('login') }}" class="btn btn-success mt-2">Login</a>
+    </div>
+    
+    
+    <div id="fail" class="alert alert-danger text-center" style="display: none;">
+        <h4 class="alert-heading">Oops! Username Unavailable</h4>
+        <p>Unfortunately, the username "<strong>{{ username }}</strong>" is already taken. Please try a different one.</p>
+        <hr>
+        <a href="{{ url_for('register') }}" class="btn btn-danger mt-2">OK</a>
+    </div>
+    
+    <div id="unknown" style="display: none;">
+        Please fill out the form to register.
+    </div>
+
+    <form method="POST">
+        {{ form.hidden_tag() }}
+        <div class="form-group">
+            {{ form.username.label }} {{ form.username(class="form-control") }}
+        </div>
+        <div class="form-group">
+            {{ form.password.label }} {{ form.password(class="form-control") }}
+        </div>
+        <div class="form-group">
+            {{ form.role.label }} {{ form.role(class="form-control") }}
+        </div>
+        {{ form.submit(class="btn btn-primary") }}
+    </form>
+
+    <script>
+        window.onload = function() {
+            var IsNewUser = "{{ IsNewUser }}";
+
+            if (IsNewUser === 'true') {
+                document.getElementById('success').style.display = 'block';
+            } else if (IsNewUser === 'false') {
+                document.getElementById('fail').style.display = 'block';
+            } else {
+                document.getElementById('unknown').style.display = 'block';
+            }
+        }
+    </script>
+{% endblock %}

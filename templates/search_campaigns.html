@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block content %}
+    <h2>Search Campaigns</h2>
+    <form method="GET" action="{{ url_for('search_campaigns') }}">
+        <label>On what basis do you want to search campaigns?</label>
+        <select name="search_by" id="search_by">
+            <option value="budget">Budget</option>
+            <option value="industry">Industry</option>
+        </select>
+        <button type="submit">Search</button>
+    </form>
+    {% if search_by == 'budget' %}
+        <form method="GET" action="{{ url_for('search_by_budget') }}">
+            <label>Minimum Budget</label>
+            <input type="number" name="min_budget" required>
+            <button type="submit">Submit</button>
+        </form>
+    {% elif search_by == 'industry' %}
+        <form method="GET" action="{{ url_for('search_by_industry') }}">
+            <label>Industry</label>
+            <select name="industry">
+                    <option value="fashion">Fashion & Apparel</option>
+                    <option value="technology">Technology & Gadgets</option>
+                    <option value="health">Health & Wellness</option>
+                    <option value="food">Food & Beverage</option>
+                    <option value="travel">Travel & Tourism</option>
+
+            <button type="submit">Submit</button>
+        </form>
+    {% endif %}
+{% endblock %}
